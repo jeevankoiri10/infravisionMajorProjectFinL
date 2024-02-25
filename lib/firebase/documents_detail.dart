@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:infravision/notifications/notification_controller.dart';
 import 'package:video_player/video_player.dart';
 
 class DocumentDetailsPage extends StatefulWidget {
@@ -15,11 +16,19 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   late VideoPlayerController _videoPlayerController;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isLoading = true;
+  GlobalKey globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     _initializeVideoPlayer();
+
+    // Delay execution by 5 seconds and then execute print statement
+    Future.delayed(Duration(seconds: 1), () {
+      print('Delayed print statement after 5 seconds');
+      // NotificationController.initializeLocalNotifications();
+      // NotificationController.createNewNotification();
+    });
   }
 
   @override
