@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "782274326261",
+    "project_id": "infravision-5a543",
+    "storage_bucket": "infravision-5a543.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782274326261:android:db4e8e8c74f6048c845fbc",
+        "android_client_info": {
+          "package_name": "com.example.infravision"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782274326261-1oos6hbt8d90q8qtl4spcdtneul1tkjr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ4MGesUh1VVZWoanB6wtHjWNGiLecxmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782274326261-1oos6hbt8d90q8qtl4spcdtneul1tkjr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
