@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:infravision/firebase/documents_list.dart';
 import 'package:infravision/firebase_options.dart';
 import 'package:infravision/notifications/notification_controller.dart';
-import 'package:infravision/notifications_page.dart';
+import 'package:infravision/about_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: <Widget>[
         DocumentListPage(), //FirestorePage(),
-        NotificationsPage(),
+        AboutPage(),
       ][selectedIndex],
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
