@@ -225,6 +225,38 @@ class NotificationController {
         ]);
   }
 
+  static Future<void> createNewNotificationForLocationDetection() async {
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) isAllowed = await displayNotificationRationale();
+    if (!isAllowed) return;
+
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: -1, // -1 is replaced by a random number
+            channelKey: 'alerts',
+            title: 'Human Detected!',
+            body:
+                "Human detected at Location 27.681927261137226, 85.31875605338234 (Pulchowk Campus)",
+            bigPicture: 'https://firebasestorage.googleapis.com/v0/b/infravision-5a543.appspot.com/o/locations%2Flocation_pulchowk.jpeg?alt=media&token=f0ae5911-2a54-4d8d-aef0-d8e9bd32180e',
+            largeIcon: 'https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png',
+            //'asset://assets/images/balloons-in-sky.jpg',
+            notificationLayout: NotificationLayout.BigPicture,
+            payload: {'notificationId': '1234567890'}),
+        actionButtons: [
+          NotificationActionButton(key: 'REDIRECT', label: 'Redirect'),
+          NotificationActionButton(
+              key: 'REPLY',
+              label: 'Reply Message',
+              requireInputText: true,
+              actionType: ActionType.SilentAction),
+          NotificationActionButton(
+              key: 'DISMISS',
+              label: 'Dismiss',
+              actionType: ActionType.DismissAction,
+              isDangerousOption: true)
+        ]);
+  }
+
   static Future<void> scheduleNewNotification() async {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
     if (!isAllowed) isAllowed = await displayNotificationRationale();
@@ -403,7 +435,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(width: 20),
             FloatingActionButton(
               heroTag: '1',
-              onPressed: () => NotificationController.createNewNotification(),
+              onPressed: () => NotificationController
+                  .createNewNotificationForLocationDetection(),
               tooltip: 'Create New notification',
               child: const Icon(Icons.outgoing_mail),
             ),

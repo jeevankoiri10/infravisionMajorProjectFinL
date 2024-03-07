@@ -14,27 +14,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
       body: Column(
         children: [
           /// Notifications page
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                Card(
-                  child: ListTile(
-                    leading: Icon(Icons.notifications_sharp),
-                    title: Text('Notification 1'),
-                    subtitle: Text('This is a notification'),
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: Icon(Icons.notifications_sharp),
-                    title: Text('Notification 2'),
-                    subtitle: Text('This is a notification'),
-                  ),
-                ),
-              ],
-            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+                'Infravision: Detecting and Locating Humans using thermal Infrared Images'),
           ),
+          Text('''
+By:
+Jeevan Koiri (076Bei016)
+Kailash Pantha (076Bei017)
+Ashma Yonghang (076Bei007) 
+  ''')
         ],
       ),
     );

@@ -16,6 +16,7 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
   late VideoPlayerController _videoPlayerController;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isLoading = true;
+  bool _isShownImages = false;
   GlobalKey globalKey = GlobalKey();
 
   @override
@@ -24,10 +25,11 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
     _initializeVideoPlayer();
 
     // Delay execution by 5 seconds and then execute print statement
-    Future.delayed(Duration(seconds: 1), () {
-      print('Delayed print statement after 5 seconds');
-      // NotificationController.initializeLocalNotifications();
-      // NotificationController.createNewNotification();
+    Future.delayed(Duration(seconds: 4), () {
+      print('Delayed print statement after 4 seconds');
+      NotificationController.initializeLocalNotifications();
+      NotificationController.createNewNotificationForLocationDetection();
+      _isShownImages = true;
     });
   }
 
@@ -108,29 +110,6 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  'List of Images:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Column(
-                  children: (data['listOfImages'] as List<dynamic>)
-                      .map<Widget>((imageUrl) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.network(
-                        imageUrl,
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: 10),
                 Text(
                   'Video:',
                   style: TextStyle(
@@ -145,6 +124,31 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
                         videoURL: _videoPlayerController.dataSource ?? '',
                         videoName: data['name'] ?? '',
                       ),
+                SizedBox(height: 10),
+                Text(
+                  'List of Images:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                _isShownImages
+                    ? Column(
+                        children: (data['listOfImages'] as List<dynamic>)
+                            .map<Widget>((imageUrl) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                              imageUrl,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }).toList(),
+                      )
+                    : Container(),
+                SizedBox(height: 10),
               ],
             ),
           );
@@ -199,5 +203,58 @@ class _PlayVideoState extends State<PlayVideo> {
       aspectRatio: _controller.value.aspectRatio,
       child: VideoPlayer(_controller),
     );
+  }
+}
+
+class DelayedColumn extends StatefulWidget {
+  final Duration delay;
+  final List<Widget> children;
+
+  const DelayedColumn({Key? key, required this.delay, required this.children})
+      : super(key: key);
+
+  @override
+  _DelayedColumnState createState() => _DelayedColumnState();
+}
+
+class _DelayedColumnState extends State<DelayedColumn>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.delay,
+    );
+    _controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Future.delayed(widget.delay),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(); // Return an empty container while waiting
+        } else {
+          return AnimatedOpacity(
+            opacity: 1,
+            duration: widget.delay,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: widget.children,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
