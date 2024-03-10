@@ -27,6 +27,8 @@ class _DocumentDetailsPageState extends State<DocumentDetailsPage> {
     // Delay execution by 5 seconds and then execute print statement
     Future.delayed(Duration(seconds: 4), () {
       print('Delayed print statement after 4 seconds');
+      NotificationController.cancelNotifications();
+
       NotificationController.initializeLocalNotifications();
       NotificationController.createNewNotificationForLocationDetection();
       _isShownImages = true;
